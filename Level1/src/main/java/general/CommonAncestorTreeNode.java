@@ -28,10 +28,22 @@ public class CommonAncestorTreeNode {
 		matchCount = ctn.countNodes(rootNodeB, sNode);
 		System.out.println("Tree B: Node count matching - " + sNode + " = " + matchCount);
 		
-		//System.out.println(ctn.getLCA(rootNodeA, sNode));
 		sNode = new Node(8);
-		System.out.println(ctn.getLCA(rootNodeB, sNode));
+		System.out.println("LCA for Tree A for node - " + sNode + " => " + ctn.getLCA(rootNodeA, sNode));
+		System.out.println("LCA for Tree B for node - " + sNode + " => " + ctn.getLCA(rootNodeB, sNode));
+		sNode = new Node(6);
+		
+		//TODO: Fix this LCA scenario, where two search nodes are in parent child relation to each other
+		System.out.println("LCA for Tree B for node - " + sNode + " => " + ctn.getLCA(rootNodeB, sNode));
+		
 	}
+	
+	/**
+	 * Count number of nodes of the given type in the tree
+	 * @param rootNodeA
+	 * @param searchNode
+	 * @return
+	 */
 	
 	private int countNodes(Node rootNodeA, Node searchNode) {
 		int count = 0;
@@ -51,7 +63,7 @@ public class CommonAncestorTreeNode {
 	}
 	
 	/**
-	 * Get lowest common ancestor
+	 * Get (LCA) lowest common ancestor
 	 * 
 	 * @param rootNode
 	 * @param searchNode
@@ -60,27 +72,48 @@ public class CommonAncestorTreeNode {
 	 */
 	
 	private Node getLCA(Node rootNode, Node searchNode) throws RuntimeException {
+		//Check if the current node matches, else matchedNode is null
 		Node matchedNode = (rootNode.equals(searchNode)) ? searchNode : null;
 
 		Node retNode = null;
-		boolean allMatch = false;
 		
+		//If the child nodes are only 1 or below, then there is no point in determining
+		//an 'allMatch'. We will set allMatch to 'true' only if there is more than one to
+		//match, it will be set to false if any one of the returns in the child iteration
+		//loop returns null - that is that path had no matches
+		boolean allMatch = (rootNode.getChildCount() > 1) ? true : false;
+		
+		//Iterate the children
 		for(int i=0; i<rootNode.getChildCount(); i++) {
+			//Enter the new path, and try to find a match
 			Node tmpNode = getLCA(rootNode.getNode(i), searchNode);
+			//If a match was found, do an and with the previous find result
+			//If the previous path had a find, then allMatch will be true,
+			//else if it had null, allMatch will be false
 			allMatch = allMatch && (tmpNode!=null);
 			
+			//As we assume that the nodes returned from below will be either a
+			//"matched node" or a "parent of the matched node", lets set it
 			if(tmpNode != null) {
 				retNode = tmpNode;
 			}
 		}
 		
+		//If this node did an allMatch it is the LCA, so pass this node up
+		//till the parent
 		if(allMatch)
 			return rootNode;
+		//If this node received a node from a path below and it doesn't match
+		//the node being searched, then its the LCA, so pass it up
 		else if(retNode != null && !retNode.equals(searchNode))
-			return searchNode;
-		else if(retNode != null && retNode.equals(searchNode))
 			return retNode;
+		//If this node received a node from the path below and it matches the
+		//node being searched, then pass it up
+		else if(retNode != null && retNode.equals(searchNode))
+			return searchNode;
 		else
+		//If none of the above send back the value of matchedNode which can be
+		//null or a match
 			return matchedNode;
 	}
 
