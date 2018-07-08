@@ -8,8 +8,10 @@ import java.io.File;
 import org.junit.Before;
 import org.junit.Test;
 
-import interviews.aconex.gedcom.ast.GEDCOMSyntaxTree;
+import interviews.aconex.gedcom.ast.GedcomAST;
+import interviews.aconex.gedcom.ast.GedcomParser;
 import interviews.aconex.gedcom.ast.exceptions.GedcomASTException;
+import interviews.aconex.gedcom.objectmodel.GedcomRecord;
 
 public class TestGEDCOMAst {
 
@@ -22,8 +24,10 @@ public class TestGEDCOMAst {
 	@Test
 	public void test() {
 		try {
-			GEDCOMSyntaxTree astTree = new GEDCOMSyntaxTree();
-			astTree.build();
+			GedcomParser parser = GedcomAST.newParser();
+			//GedcomRecord rec = parser.parseRecord("0 @I1@ INDI");
+			GedcomRecord rec = parser.parseRecord("0 SEX MA");
+			System.out.println(rec);
 		} catch (GedcomASTException e) {
 			e.printStackTrace();
 		}

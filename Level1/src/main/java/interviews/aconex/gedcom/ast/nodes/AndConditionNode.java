@@ -1,6 +1,6 @@
 package interviews.aconex.gedcom.ast.nodes;
 
-public class AndConditionNode extends AbstractAstNode {
+public class AndConditionNode extends AbstractAstNode implements ASTConditionNode_I {
 	
 	public AndConditionNode() {
 		this("&");

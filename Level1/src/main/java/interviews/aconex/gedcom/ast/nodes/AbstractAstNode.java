@@ -34,7 +34,7 @@ public class AbstractAstNode implements ASTNode_I {
 	
 	@Override
 	public String toString() {
-		return "Node name => " + this.m_NodeValue;
+		return this.m_NodeValue.toString();
 	}
 
 }
