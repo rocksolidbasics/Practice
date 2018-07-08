@@ -30,7 +30,7 @@ public class BNFDocument {
 		while(keyIter.hasNext()) {
 			String key = keyIter.next();
 			Term_I term = parser.parse(this.m_BnfRuleMap.get(key).getRuleExpression());
-			this.m_BnfRuleMap.get(key).setSubRules(term);
+			this.m_BnfRuleMap.get(key).setRootTerm(term);
 		}
 	}
 

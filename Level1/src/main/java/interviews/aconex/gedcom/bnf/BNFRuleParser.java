@@ -5,7 +5,7 @@ import java.util.regex.Pattern;
 
 import interviews.aconex.gedcom.bnf.exceptions.BNFDocumentBuilderException;
 
-public class BNFRuleParser {
+class BNFRuleParser {
 	
 	private static final Pattern bnfRegexPattern = Pattern.compile("(.+?)\\s::=\\s(.+)");
 	

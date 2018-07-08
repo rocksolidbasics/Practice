@@ -1,17 +1,18 @@
 package interviews.aconex.gedcom.bnf;
 
+import interviews.aconex.gedcom.bnf.types.BinaryTerm;
 import interviews.aconex.gedcom.bnf.types.Term_I;
 
 public class BNFRule {
 	private int m_RuleId;
-	private String m_RuleTerm;
+	private String m_RuleName;
 	private String m_RuleExpr;
 	
-	private Term_I m_SubRules;
+	private Term_I m_RootTerm;
 	
-	public BNFRule(int ruleId, String ruleTerm, String ruleExpr) {
+	public BNFRule(int ruleId, String ruleName, String ruleExpr) {
 		this.m_RuleId = ruleId;
-		this.m_RuleTerm = ruleTerm;
+		this.m_RuleName = ruleName;
 		this.m_RuleExpr = ruleExpr;
 	}
 	
@@ -19,24 +20,33 @@ public class BNFRule {
 		return m_RuleId;
 	}
 	
-	public String getRuleTerm() {
-		return m_RuleTerm;
+	public String getRuleName() {
+		return m_RuleName;
 	}
 	
 	public String getRuleExpression() {
 		return m_RuleExpr;
 	}
 	
+	public Term_I getRootTerm() {
+		return m_RootTerm;
+	}
+
+	public void setRootTerm(Term_I term) {
+		this.m_RootTerm = term;
+	}
+	
 	@Override
 	public String toString() {
-		return "ID => " + this.m_RuleId + ", Term => " + this.m_RuleTerm + ", Expression => " + this.m_RuleExpr;
-	}
-
-	public Term_I getSubRules() {
-		return m_SubRules;
-	}
-
-	public void setSubRules(Term_I term) {
-		this.m_SubRules = term;
+		StringBuilder out = new StringBuilder();
+		out.append("BNFRule => ID = " + this.m_RuleId + "\n" + 
+				"\t Rule name => " + this.m_RuleName + "\n" +
+				"\t Constituent terms [\n" +
+				"\t\t Term type => " + this.m_RootTerm.getClass().getName() + "\n" +
+				"\t\t Is Repeating => " + this.m_RootTerm.isRepeating() + "\n");
+		if(this.m_RootTerm instanceof BinaryTerm)
+			out.append("\t\t Child term count => " + ((BinaryTerm)this.m_RootTerm).getTerms().size());
+		
+		return out.toString();
 	}
 }

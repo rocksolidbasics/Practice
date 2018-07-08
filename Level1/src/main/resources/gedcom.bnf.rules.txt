@@ -4,6 +4,8 @@ ROOT 	::= LEVEL TAG|ID DATA
 LEVEL 	::= {DIGIT}
 TAG		::= "NAME" | "SURN" | "GIVN" | "SEX"
 ID		::= "@" {DIGIT|CHAR} "@"
-DATA	::= {CHAR|DIGIT|"_"|"/"}
-CHAR	::= 'E'|'T'|...'Z'
+DATA	::= {CHARS|DIGIT|"_"|"/"}
+
+# Character as per Zipfian distribution
+CHAR	::= 'E' | 'T' | 'A' | 'O' | 'N' | 'I' |  'S' | 'R' | 'H' | 'L' | 'D' | 'C' | 'U' | 'P' | 'F' | 'M' | 'N' | 'W' | 'Y' | 'B' | 'G' | 'V' | 'K' | 'Q' | 'X' | 'J' | 'Z'
 DIGIT	::= '1'|'2'|'3'|'4'|'5'|'6'|'7'|'8'|'9'|'0'

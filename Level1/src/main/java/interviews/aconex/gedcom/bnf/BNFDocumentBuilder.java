@@ -37,7 +37,7 @@ public class BNFDocumentBuilder {
 		
 		while((bnfLine = m_Reader.readNext()) != null) {
 			bnfRule = parser.parse(bnfLine);
-			m_BnfRuleMap.put(bnfRule.getRuleTerm(), bnfRule);
+			m_BnfRuleMap.put(bnfRule.getRuleName(), bnfRule);
 		}
 		
 		BNFDocument doc = new BNFDocument(m_BnfRuleMap);

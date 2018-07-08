@@ -5,7 +5,7 @@ import interviews.aconex.gedcom.bnf.types.ConstantTerm;
 import interviews.aconex.gedcom.bnf.types.SimpleTerm;
 import interviews.aconex.gedcom.bnf.types.Term_I;
 
-public class BNFTermParser {
+class BNFTermParser {
 
 	public Term_I parse(String expression) {
 		expression = this.normalize(expression);

@@ -5,7 +5,7 @@ import java.io.LineNumberReader;
 
 import interviews.aconex.gedcom.bnf.exceptions.BNFDocumentBuilderException;
 
-public class BNFReader {
+class BNFReader {
 	
 	private int lineNumber = 0;
 	private LineNumberReader m_InReader;

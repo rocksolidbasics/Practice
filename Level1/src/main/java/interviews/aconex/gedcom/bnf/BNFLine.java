@@ -1,6 +1,6 @@
 package interviews.aconex.gedcom.bnf;
 
-public class BNFLine {
+class BNFLine {
 	private int m_LineNumber;
 	private String m_RuleExpression;
 	
