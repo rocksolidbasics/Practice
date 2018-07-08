@@ -41,6 +41,7 @@ public class BNFRule {
 		StringBuilder out = new StringBuilder();
 		out.append("BNFRule => ID = " + this.m_RuleId + "\n" + 
 				"\t Rule name => " + this.m_RuleName + "\n" +
+				"\t Rule Expr => " + this.m_RuleExpr + "\n" +
 				"\t Constituent terms [\n" +
 				"\t\t Term type => " + this.m_RootTerm.getClass().getName() + "\n" +
 				"\t\t Is Repeating => " + this.m_RootTerm.isRepeating() + "\n");

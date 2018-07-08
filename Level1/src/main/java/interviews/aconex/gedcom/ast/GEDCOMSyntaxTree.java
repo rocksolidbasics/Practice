@@ -47,8 +47,9 @@ public class GEDCOMSyntaxTree {
 	}
 	
 	private void _build() throws GedcomASTException {
+		System.out.println(this.m_BnfDoc);
 		BNFRule rootRule = m_BnfDoc.getRootRule();
-		ASTNode_I rootNode = _createNode(rootRule);
+		ASTNode_I rootNode = _createNode(rootRule.getRootTerm(), rootRule.getRuleName());
 		this._appendChildNodes(rootNode, rootRule.getRootTerm());
 		System.out.println(rootNode);
 	}
@@ -65,13 +66,18 @@ public class GEDCOMSyntaxTree {
 					
 					if(term instanceof BinaryTerm) {
 						childNode = ((((BinaryTerm)term).getOperator() == BinaryTerm.BINARY_OPERATOR.OR)) ? new OrConditionNode() : new AndConditionNode();
-						
-						List<Term_I> cTerms = ((BinaryTerm)term).getTerms();
 						this._appendChildNodes(childNode, term);
+					} else if(term instanceof ConstantTerm) {
+						if(term.getName().equals("DIGIT")) {
+							childNode = new DigitConstantNode();
+						} else if(term.getName().equals("CHARS")) {
+							childNode = new CharsConstantNode();
+						} else
+							childNode = new StringConstantNode(term.getName());
 					} else {
-						BNFRule childRule = this.m_BnfDoc.getRule(term.getName());
-						childNode = _createNode(childRule);
-						this._appendChildNodes(childNode, childRule.getRootTerm());
+						childNode = _createNode(term, term.getName());
+						//BNFRule childRule = this.m_BnfDoc.getRule(term.getName());
+						this._appendChildNodes(childNode, term);
 					}
 					
 					targetNode.appendChildNode(childNode);
@@ -79,17 +85,20 @@ public class GEDCOMSyntaxTree {
 			} else if(lTerm instanceof SimpleTerm) {
 				ASTNode_I childNode = null;
 				BNFRule childRule = this.m_BnfDoc.getRule(lTerm.getName());
+				Term_I term = childRule.getRootTerm();
 				
 				//If Simple Term is of type DIGIT/ CHARS create a node Composite node object
-				if(childRule.getRuleName().equals("DIGIT")) {
-					childNode = new DigitConstantNode();
-					targetNode.appendChildNode(childNode);
-				} else if(childRule.getRuleName().equals("CHARS")) {
+				if(term.getName().equals("DIGIT")) {
+					BNFRule digitRule = this.m_BnfDoc.getRule(term.getName());
+					childNode = new DigitConstantNode(digitRule.getRuleExpression());
+				} else if(term.getName().equals("CHARS")) {
 					childNode = new CharsConstantNode();
-					targetNode.appendChildNode(childNode);
 				} else {
-					this._appendChildNodes(childNode, childRule.getRootTerm());
+					childNode = ((((BinaryTerm)term).getOperator() == BinaryTerm.BINARY_OPERATOR.OR)) ? new OrConditionNode() : new AndConditionNode();
+					this._appendChildNodes(childNode, term);
 				}
+				
+				targetNode.appendChildNode(childNode);
 			}
 		}
 
@@ -136,8 +145,21 @@ public class GEDCOMSyntaxTree {
 		}
 
 	}*/
+	
+	private ASTNode_I _createNode(Term_I rootTerm, String typeName) throws GedcomASTException {
+		if(rootTerm instanceof BinaryTerm && ((BinaryTerm)rootTerm).getOperator() == BinaryTerm.BINARY_OPERATOR.OR) {
+			return new OrConditionNode();
+		} else if(rootTerm instanceof BinaryTerm && ((BinaryTerm)rootTerm).getOperator() == BinaryTerm.BINARY_OPERATOR.AND) {
+			return new AndConditionNode();
+		} else if(rootTerm instanceof SimpleTerm) {
+			return new TypeNode(typeName);
+		} else if(rootTerm instanceof ConstantTerm) {
+			return new StringConstantNode(typeName);
+		} else
+			throw new GedcomASTException("Invalid BNF term encountered while building AST");
+	}
 
-	private ASTNode_I _createNode(BNFRule rootRule) throws GedcomASTException {
+	/*private ASTNode_I _createNode(BNFRule rootRule) throws GedcomASTException {
 		Term_I rootTerm = rootRule.getRootTerm();
 		
 		if(rootTerm instanceof BinaryTerm && ((BinaryTerm)rootTerm).getOperator() == BinaryTerm.BINARY_OPERATOR.OR) {
@@ -150,7 +172,7 @@ public class GEDCOMSyntaxTree {
 			return new StringConstantNode(rootRule.getRuleName());
 		} else
 			throw new GedcomASTException("Invalid BNF term encountered while building AST");
-	}
+	}*/
 
 	private boolean shouldRebuild() {
 		// TODO Check serialized AST tree file and BNF file's modified time and decide

@@ -59,7 +59,10 @@ class BNFTermParser {
 	}
 	
 	private String cleanConstant(String expr) {
-		return expr.substring(1, expr.length()-1);
+		if(expr.startsWith("{") && expr.endsWith("}"))
+			return expr.substring(1, expr.length()-1);
+		
+		return expr;
 	}
 	
 	private boolean isConstant(String expr) {
