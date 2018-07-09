@@ -14,7 +14,6 @@ import interviews.aconex.gedcom.ast.nodes.OrConditionNode;
 import interviews.aconex.gedcom.ast.nodes.StringConstantNode;
 import interviews.aconex.gedcom.ast.nodes.TypeNode;
 import interviews.aconex.gedcom.objectmodel.GedcomRecord;
-import interviews.aconex.gedcom.objectmodel.GenericVariable;
 
 public class GedcomParser {
 
@@ -26,7 +25,7 @@ public class GedcomParser {
 	}
 	
 	public GedcomRecord parseRecord(String record) {
-		this._parse(this.m_AstRoot, record, 0);
+		this._parse(this.m_AstRoot, record+"_ ", 0);
 		return createRecord();
 	}
 	

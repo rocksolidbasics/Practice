@@ -7,7 +7,6 @@ import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.Map;
 
-import interviews.aconex.gedcom.ast.GEDCOMSyntaxTree;
 import interviews.aconex.gedcom.bnf.exceptions.BNFDocumentBuilderException;
 
 public class BNFDocumentBuilder {

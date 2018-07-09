@@ -2,7 +2,7 @@
 
 ROOT 	::= LEVEL TAG|ID DATA
 LEVEL 	::= {DIGIT}
-TAG		::= "NAME" | "SURN" | "GIVN" | "SEX"
+TAG		::= "NAME" | "SURN" | "GIVN" | "SEX" | "BIRT" | "DATE" | "PLAC" | "FAMC" | "FAMS" | "TITL" | "OCCU" | "NOTE" | "CHAN" | "DEAT" | "SOUR" | "HUSB" | "WIFE" | "MARR" | "CHIL" | "CONC" | "CONT" | "AUTH" | "TRLR"
 ID		::= "@" {DIGIT|CHARS} "@"
 DATA	::= {CHARS|DIGIT|"_"|"/"}
 
