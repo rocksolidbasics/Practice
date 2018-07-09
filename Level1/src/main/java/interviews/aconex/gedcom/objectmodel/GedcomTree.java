@@ -24,6 +24,8 @@ public class GedcomTree implements Visitable_I {
 			GedcomEntity entity = entities.next();
 			entity.accept(visitor);
 		}
+		
+		visitor.done(this);
 	}
 
 }

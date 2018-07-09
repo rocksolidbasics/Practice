@@ -12,4 +12,10 @@ public interface GedcomVisitor_I {
 	
 	public void visit(GedcomTree tree);
 	
+	public void done(GedcomData data);
+	
+	public void done(GedcomEntity entity);
+	
+	public void done(GedcomTree tree);
+	
 }

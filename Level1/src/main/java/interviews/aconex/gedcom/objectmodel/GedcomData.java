@@ -27,6 +27,8 @@ public class GedcomData implements Visitable_I {
 			GedcomData data = dataIter.next();
 			data.accept(visitor);
 		}
+		
+		visitor.done(this);
 	}
 
 	public String getType() {

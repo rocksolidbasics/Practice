@@ -12,8 +12,7 @@ import java.io.InputStreamReader;
 import org.junit.Before;
 import org.junit.Test;
 
-import interviews.aconex.gedcom.adapter.GedcomTreeVisitor;
-import interviews.aconex.gedcom.adapter.Visitable_I;
+import interviews.aconex.gedcom.adapter.xml.GedcomXMLGenerator;
 import interviews.aconex.gedcom.ast.GedcomAST;
 import interviews.aconex.gedcom.ast.GedcomParser;
 import interviews.aconex.gedcom.ast.exceptions.GedcomASTException;
@@ -61,7 +60,11 @@ public class TestGEDCOMAst {
 					new InputStreamReader(new FileInputStream(new File(gedcomSampleFile))));
 			builder = new GedcomTreeBuilder();
 			GedcomTree tree = builder.parse(bis);
-			tree.accept(new GedcomTreeVisitor());
+			
+			GedcomXMLGenerator xmlGen = new GedcomXMLGenerator();
+			tree.accept(xmlGen);
+			
+			System.out.println(xmlGen.getXML());
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (GedcomParserException e) {
