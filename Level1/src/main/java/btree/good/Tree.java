@@ -1,10 +1,10 @@
 package btree.good;
 
-public class Tr<T> {
+public class Tree<T> {
 	
-	private Tn<T> rootNode;
+	private TreeNode<T> rootNode;
 
-	public void addNode(Tn<T> tn) throws Exception {
+	public void addNode(TreeNode<T> tn) throws Exception {
 		if(tn == null)
 			throw new Exception("Null node provided");
 		
@@ -14,21 +14,21 @@ public class Tr<T> {
 		}
 	}
 	
-	public Tn<T> findNode(T value) {
+	public TreeNode<T> findNode(T value) {
 		return this._findNode(rootNode, value);
 	}
 	
 	//TODO: Path match
-	public Tn<T> getLCAPathMatch(T val1, T val2) {
+	public TreeNode<T> getLCAPathMatch(T val1, T val2) {
 		return null;
 	}
 	
 	//Bubble up method
-	public Tn<T> getLCA(T val1, T val2) {
+	public TreeNode<T> getLCA(T val1, T val2) {
 		return this._getLCA(rootNode, val1, val2);
 	}
 	
-	private Tn<T> _getLCA(Tn<T> node, T val1, T val2) {
+	private TreeNode<T> _getLCA(TreeNode<T> node, T val1, T val2) {
 		if(node == null || node.getData() == null)
 			return null;
 		
@@ -37,8 +37,8 @@ public class Tr<T> {
 			return node;
 		}
 		
-		Tn<T> lNode = _getLCA(node.getlNode(), val1, val2);
-		Tn<T> rNode = _getLCA(node.getrNode(), val1, val2);
+		TreeNode<T> lNode = _getLCA(node.getlNode(), val1, val2);
+		TreeNode<T> rNode = _getLCA(node.getrNode(), val1, val2);
 		
 		if(lNode != null && rNode != null)
 			return node;
@@ -50,21 +50,21 @@ public class Tr<T> {
 			return null;
 	}
 	
-	public TnPath<T> getPathTo(T value, T stopVal) {
-		TnPath<T> path = new TnPath<>();
+	public TreePath<T> getPathTo(T value, T stopVal) {
+		TreePath<T> path = new TreePath<>();
 		
 		this._tracePath(rootNode, value, path, stopVal);
 		return path;
 	}
 	
-	public TnPath<T> getPathTo(T value) {
-		TnPath<T> path = new TnPath<>();
+	public TreePath<T> getPathTo(T value) {
+		TreePath<T> path = new TreePath<>();
 		
 		this._tracePath(rootNode, value, path, null);
 		return path;
 	}
 	
-	private boolean _tracePath(Tn<T> node, T findValue, TnPath<T> path, T stopValue) {
+	private boolean _tracePath(TreeNode<T> node, T findValue, TreePath<T> path, T stopValue) {
 		if(node == null || node.getData() == null)
 			return false;
 		
@@ -100,7 +100,7 @@ public class Tr<T> {
 		}
 	}
 	
-	private Tn<T> _findNode(Tn<T> node, T value) {
+	private TreeNode<T> _findNode(TreeNode<T> node, T value) {
 		if(node == null || node.getData() == null)
 			return null;
 		
@@ -114,8 +114,8 @@ public class Tr<T> {
 		}
 	}
 
-	public void populate(java.util.function.Supplier<Tn<T>> supplier) {
-		Tn<T> tn = supplier.get();
+	public void populate(java.util.function.Supplier<TreeNode<T>> supplier) {
+		TreeNode<T> tn = supplier.get();
 		rootNode = tn;
 	}
 	

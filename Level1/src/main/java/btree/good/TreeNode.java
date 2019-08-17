@@ -2,29 +2,29 @@ package btree.good;
 
 import java.util.Comparator;
 
-public class Tn<T> {
+public class TreeNode<T> {
 
-	private Tn<T> lNode;
-	private Tn<T> rNode;
+	private TreeNode<T> lNode;
+	private TreeNode<T> rNode;
 	private final T data;
 	
 	private Comparator<T> comparator;
 	
-	public Tn(T n, Comparator<T> c) {
+	public TreeNode(T n, Comparator<T> c) {
 		this.data = n;
 		this.comparator = c;
 	}
 	
-	public Tn<T> getlNode() {
+	public TreeNode<T> getlNode() {
 		return lNode;
 	}
-	public void setlNode(Tn<T> lNode) {
+	public void setlNode(TreeNode<T> lNode) {
 		this.lNode = lNode;
 	}
-	public Tn<T> getrNode() {
+	public TreeNode<T> getrNode() {
 		return rNode;
 	}
-	public void setrNode(Tn<T> rNode) {
+	public void setrNode(TreeNode<T> rNode) {
 		this.rNode = rNode;
 	}
 	public T getData() {
