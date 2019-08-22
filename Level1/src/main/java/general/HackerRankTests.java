@@ -48,31 +48,52 @@ public class HackerRankTests {
         List<Integer> r = gradingStudents(grades);
         System.out.println("Grades: " + r);
         
+        //Helper
+        int[] a = new int[] {23,98,14,14,6,0};
+        int[] b = new int[] {46,56,15,21,6,0};
+        isCoPrime(a, b);
+        
         //Test 9
-        int[] a = new int[] {23,98,14,14};
-        int[] b = new int[] {46,56,15,21};
         computerGame(a, b);
     }
     
-    //Test 9 - Co-primes
-    static void computerGame(int[] a, int[] b) {
+    //Test 9 - Find non co-primes
+    //Scenario 1:
+    //2 5 6 7
+    //4 9 10 12
+    //Scenario 2:
+    //2 5 6 17
+    //10 25 3 7  (5-10) match won't maximize the result
+    //Scenario 3:
+    //20 5 6 17
+    //10 25 3 7  (5-10) match won't maximize the result
+    
+    private static void computerGame(int[] a, int[] b) {
+		
+	}
+
+	//Test 9 - Co-primes
+    static void isCoPrime(int[] a, int[] b) {
     	for(int i=0; i<a.length; i++) {
     		int aa = a[i];
     		int bb = b[i];
     		
-    		while(aa != 0 && bb != 0 && aa != bb) {
+    		while(aa > 1 && bb > 1) {
 	    		if(aa > bb) {
 	    			aa = aa-bb;
 	    		}
 	    		if(bb > aa) {
 	    			bb = bb-aa;
 	    		}
+	    		if(aa == bb) {
+	    			break;
+	    		}
     		}
     		
     		if(aa != bb || aa == 1 || bb == 1)
-    			System.out.println("N");
-    		else
     			System.out.println("Y");
+    		else
+    			System.out.println("N");
     	}
     }
     
