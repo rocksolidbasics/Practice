@@ -2,14 +2,17 @@ package general;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 
 public class HackerRankTests {
+	
+	private static boolean debug = false;
 
     public static void main(String[] args) {
         // Test 1
         int sum = simpleArraySum(new int[] { 10, 7, 1 });
-        System.out.println(sum);
+        debug(sum);
         
         //Test 2 - Compare Triplets
         
@@ -32,7 +35,7 @@ public class HackerRankTests {
         //Test 7 - Time conversion
         String time = timeConversion("07:05:45PM");
         time = timeConversion("07:05:45AM");
-        System.out.println(time);
+        debug(time);
         time = timeConversion("12:05:45AM");
         time = timeConversion("12:05:45PM");
         
@@ -46,15 +49,18 @@ public class HackerRankTests {
         grades.add(43);
         grades.add(42);
         List<Integer> r = gradingStudents(grades);
-        System.out.println("Grades: " + r);
+        debug("Grades: " + r);
         
         //Helper
+        debug = true;
         int[] a = new int[] {23,98,14,14,6,0};
         int[] b = new int[] {46,56,15,21,6,0};
         isCoPrime(a, b);
         
         //Test 9
-        computerGame(a, b);
+        a = new int[] {23,98,14,14};
+        b = new int[] {46,56,15,21};
+        //computerGame(a, b);
     }
     
     //Test 9 - Find non co-primes
@@ -69,8 +75,40 @@ public class HackerRankTests {
     //10 25 3 7  (5-10) match won't maximize the result
     
     private static void computerGame(int[] a, int[] b) {
+    	HashMap<Integer,List<Integer>> uniGraph = new HashMap<>();
+    	
+    	//Collect the combination of non co-prime pairs
+		for(int i=0; i<a.length; i++) {
+			List<Integer> nonCoPrimeList = new ArrayList<>();
+			for(int j=0; j<b.length; j++) {
+				if(!isCoPrime(a[i], b[j]))
+					nonCoPrimeList.add(b[j]);
+			}
+			
+			if(nonCoPrimeList.size() > 0)
+				uniGraph.put(a[i], nonCoPrimeList);
+		}
+		
 		
 	}
+    
+    static boolean isCoPrime(int a, int b) {
+    	while(a > 1 && b > 1) {
+    		if(a > b) {
+    			a = a - b;
+    		}
+    		if(b > a) {
+    			b = b - a;
+    		}
+    		if(a == b)
+    			break;
+    	}
+    	
+    	if(a > 1 && a == b)
+    		return true;
+    	else
+    		return false;
+    }
 
 	//Test 9 - Co-primes
     static void isCoPrime(int[] a, int[] b) {
@@ -90,10 +128,11 @@ public class HackerRankTests {
 	    		}
     		}
     		
-    		if(aa != bb || aa == 1 || bb == 1)
-    			System.out.println("Y");
+    		//if(aa != bb || aa == 1 || bb == 1)
+    		if(aa > 1 && aa == bb)
+    			debug("N");
     		else
-    			System.out.println("N");
+    			debug("Y");
     	}
     }
     
@@ -139,7 +178,7 @@ public class HackerRankTests {
         long small = 0, big = 0;
         
         if(arr.length == 1) {
-            System.out.println(arr[0] + " " + arr[0]);
+            debug(arr[0] + " " + arr[0]);
             return;
         }
         
@@ -165,17 +204,17 @@ public class HackerRankTests {
             }
         }
         
-        System.out.println((small+sum) + " " + (sum+big));
+        debug((small+sum) + " " + (sum+big));
     }
     
     //Test 5
     static void staircase(int n) {
         for(int i=1; i<=n; i++) {
             for(int j=1; j<=n-i; j++)
-                System.out.print(" ");
+                debug(" ");
             for(int k=1; k<=i; k++)
-                System.out.print("#");
-            System.out.println("");
+                debug("#");
+            debug("");
         }
     }
     
@@ -188,9 +227,9 @@ public class HackerRankTests {
             else z++;
         }
         
-        System.out.printf("%.6f\n", (p/arr.length));
-        System.out.printf("%.6f\n", (n/arr.length));
-        System.out.printf("%.6f\n", (z/arr.length));
+        debugf("%.6f\n", (p/arr.length));
+        debugf("%.6f\n", (n/arr.length));
+        debugf("%.6f\n", (z/arr.length));
     }
     
     private static void initTest3() {
@@ -199,13 +238,13 @@ public class HackerRankTests {
         arr.add(Arrays.asList(new Integer[]{2, 1, 3}));
         arr.add(Arrays.asList(new Integer[]{1, 2, 3}));
         int dd = diagonalDifference(arr);
-        System.out.println("Diagonal difference: " + dd);
+        debug("Diagonal difference: " + dd);
     }
 
     //Test 3
     static int diagonalDifference(List<List<Integer>> arr) {
         int l = 0, r = 0;
-        System.out.println(arr.size());
+        debug(arr.size());
         
         for(int i = 0; i<arr.size(); i++) {
             int j = arr.size()-1-i;
@@ -241,6 +280,18 @@ public class HackerRankTests {
         }
 
         return results;
+    }
+    
+    private static void debug(Object message) {
+    	if(debug) {
+    		System.out.println(message);
+    	}
+    }
+    
+    private static void debugf(String format, Object message) {
+    	if(debug) {
+    		System.out.printf(format, message);
+    	}
     }
 
 }
