@@ -63,20 +63,44 @@ public class HackerRankTests {
         isCoPrime(a, b);
         
         //Test 9
-        debug = true;
-        //a = new int[] {2,5,6,7};
-        //b = new int[] {4,9,10,12};
-        a = new int[100000];
-        b = new int[100000];
-        
-        Random rnd = new Random(5);
-        
-        for(int i=0; i<100000; i++) {
-        	a[i] = rnd.nextInt(1000000000);
-        	b[i] = rnd.nextInt(1000000000);
-        }
-        
+        a = new int[] {2,5,6,7};
+        b = new int[] {4,9,10,12};
+		/*
+		 * a = new int[100000]; b = new int[100000];
+		 * 
+		 * Random rnd = new Random(5);
+		 * 
+		 * for(int i=0; i<100000; i++) { a[i] = rnd.nextInt(1000000000); b[i] =
+		 * rnd.nextInt(1000000000); }
+		 */
         computerGame(a, b);
+        
+        //Test 10
+        debug = true;
+        int[] apples = {-2, 2, 1};
+        int[] oranges = {5, -6};
+        countApplesAndOranges(7, 10, 5, 15, apples, oranges);
+    }
+    
+    static String kangaroo(int x1, int v1, int x2, int v2) {
+    	
+    }
+    
+    //Test 10
+    static void countApplesAndOranges(int s, int t, int a, int b, int[] apples, int[] oranges) {
+    	int app = 0;
+    	int orn = 0;
+    	for(int i=0; i<apples.length; i++) {
+    		if(apples[i] > 0 && apples[i]+a >= s && apples[i]+a <= t)
+    			app++;
+    	}
+    	for(int j=0; j<oranges.length; j++) {
+    		if(oranges[j] < 0 && b + oranges[j] <= t && b + oranges[j] >= s)
+    			orn++;
+    	}
+    	
+    	debug(app);
+    	debug(orn);
     }
     
     //Test 9 - Find non co-primes
