@@ -76,14 +76,46 @@ public class HackerRankTests {
         computerGame(a, b);
         
         //Test 10
-        debug = true;
         int[] apples = {-2, 2, 1};
         int[] oranges = {5, -6};
         countApplesAndOranges(7, 10, 5, 15, apples, oranges);
+        
+        //Test 11
+        debug = true;
+        debug(kangaroo(0, 3, 4, 2));	//YES
+        debug(kangaroo(0, 2, 4, 2));	//N
+        debug(kangaroo(0, 2, 0, 2));	//N
+        debug(kangaroo(0, 10000, 0, 10000));	//N
+        debug(kangaroo(10000, 1, 10000, 0));	//N
+        debug(kangaroo(10000, 1, 10000, 1));	//N
+        debug(kangaroo(10000, 0, 10000, 1));	//N
+        //debug(kangaroo(5, 2, 3, 2));	//N
+        //debug(kangaroo(5, 2, 3, 3));	//Y
+        debug(kangaroo(2, 3, 5, 1));	//N
+        debug("---");
+        debug(kangaroo(0, 2, 0, 2));	//y
+        debug(kangaroo(0,2,1,1));		//y
+        debug(kangaroo(0,2,2,1));		//n
+        debug(kangaroo(0,3,1,3));		//n
+        debug(kangaroo(0,3,1,1));		//n
+        debug(kangaroo(0,3,2,1));		//y
     }
     
+    //Test 11
     static String kangaroo(int x1, int v1, int x2, int v2) {
-    	
+		/*
+		 * if((x1 > x2 && v1 > v2) || (x2 > x1 && v2 > v1) || (x1+v1 == x2) || (x2+v2 ==
+		 * x1) || ((x2 > x1 && v2 > v1) && (x1+v2 > x2)) || ((x1 > x2 && v1 > v2) &&
+		 * (x2+v1 > x1)) || (x1 != x2 && v1 == v2) || (x1+v1 > 10000 || x2+v2 > 10000))
+		 * return "NO"; return "YES";
+		 */
+    	if((v2 > v1) 
+    			|| (x1+v1 == x2)
+                || (x1+v1 > x2+v2)
+                || (x1+v1 < x2+v2)
+           )
+            return "NO";
+        return "YES";
     }
     
     //Test 10
