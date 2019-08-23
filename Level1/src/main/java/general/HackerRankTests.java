@@ -2,14 +2,20 @@ package general;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map.Entry;
+import java.util.Random;
 
 public class HackerRankTests {
 	
 	private static boolean debug = false;
 
     public static void main(String[] args) {
+    	debug = false;
+    	
         // Test 1
         int sum = simpleArraySum(new int[] { 10, 7, 1 });
         debug(sum);
@@ -52,15 +58,25 @@ public class HackerRankTests {
         debug("Grades: " + r);
         
         //Helper
-        debug = true;
         int[] a = new int[] {23,98,14,14,6,0};
         int[] b = new int[] {46,56,15,21,6,0};
         isCoPrime(a, b);
         
         //Test 9
-        a = new int[] {23,98,14,14};
-        b = new int[] {46,56,15,21};
-        //computerGame(a, b);
+        debug = true;
+        //a = new int[] {2,5,6,7};
+        //b = new int[] {4,9,10,12};
+        a = new int[100000];
+        b = new int[100000];
+        
+        Random rnd = new Random(5);
+        
+        for(int i=0; i<100000; i++) {
+        	a[i] = rnd.nextInt(1000000000);
+        	b[i] = rnd.nextInt(1000000000);
+        }
+        
+        computerGame(a, b);
     }
     
     //Test 9 - Find non co-primes
@@ -76,20 +92,92 @@ public class HackerRankTests {
     
     private static void computerGame(int[] a, int[] b) {
     	HashMap<Integer,List<Integer>> uniGraph = new HashMap<>();
+    	HashMap<Integer, Integer> matchCounter = new HashMap<>();
     	
     	//Collect the combination of non co-prime pairs
 		for(int i=0; i<a.length; i++) {
 			List<Integer> nonCoPrimeList = new ArrayList<>();
 			for(int j=0; j<b.length; j++) {
-				if(!isCoPrime(a[i], b[j]))
+				//Check non co-prime
+				if(!isCoPrime(a[i], b[j])) {
+					//debug("a=" + a[i] + ", " + b[j]);
 					nonCoPrimeList.add(b[j]);
+					//Maintain count of matched pairs for each item on second array
+					Integer cnt = matchCounter.get(b[j]);
+					if(cnt == null) {
+						matchCounter.put(b[j], 1);
+					} else {
+						matchCounter.put(b[j], cnt+1);
+					}
+				}
 			}
 			
 			if(nonCoPrimeList.size() > 0)
 				uniGraph.put(a[i], nonCoPrimeList);
 		}
 		
+		List<Entry<Integer,List<Integer>>> sortedUniGraph = new ArrayList<Entry<Integer,List<Integer>>>();
+		uniGraph.entrySet().forEach(e -> sortedUniGraph.add(e));
 		
+		Collections.sort(sortedUniGraph, new Comparator<Entry<Integer, List<Integer>>>() {
+			@Override
+			public int compare(Entry<Integer, List<Integer>> o1, Entry<Integer, List<Integer>> o2) {
+				Entry<Integer,List<Integer>> a = (Entry<Integer,List<Integer>>)o1;
+				Entry<Integer,List<Integer>> b = (Entry<Integer,List<Integer>>)o2;
+				List<Integer> aL = a.getValue();
+				List<Integer> bL = b.getValue();
+				
+				if(aL == null || bL == null)
+					return 0;
+				else if(aL.size() == bL.size())
+					return 0;
+				else if(aL.size() > bL.size())
+					return 1;
+				else
+					return -1;
+			}
+			
+		});
+		
+		sortedUniGraph.forEach(e -> {
+			Collections.sort(e.getValue(), new Comparator<Integer>() {
+				@Override
+				public int compare(Integer o1, Integer o2) {
+					Integer mc1 = matchCounter.get(o1);
+					Integer mc2 = matchCounter.get(o2);
+					
+					if(mc1 != null && mc2 == null)
+						return 1;
+					else if(mc1 == null && mc2 != null)
+						return -1;
+					else if(mc1 == null || mc2 == null)
+						return 0;
+					else if(mc1 == mc2)
+						return 0;
+					else if(mc1 > mc2)
+						return 1;
+					else
+						return -1;
+				}
+			});
+		});
+		
+		debug(sortedUniGraph);
+		debug(matchCounter);
+		
+		int resultCounter = 0;
+		
+		for(Entry<Integer,List<Integer>> ue : sortedUniGraph) {
+			for(Integer v : ue.getValue()) {
+				if(matchCounter.containsKey(v)) {
+					resultCounter++;
+					matchCounter.remove(v);
+					break;
+				}
+			}
+		}
+		
+		debug("Result: " + resultCounter);
 	}
     
     static boolean isCoPrime(int a, int b) {
@@ -105,9 +193,9 @@ public class HackerRankTests {
     	}
     	
     	if(a > 1 && a == b)
-    		return true;
-    	else
     		return false;
+    	else
+    		return true;
     }
 
 	//Test 9 - Co-primes
